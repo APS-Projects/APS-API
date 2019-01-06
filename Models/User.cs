@@ -24,5 +24,8 @@ namespace APS_API.Models
 
         [Required]
         public bool IsActive { get; set; }
+
+        [Required]
+        public int DefaultLocation { get; set; }
     }
 }
