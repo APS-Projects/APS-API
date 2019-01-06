@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APS-API", "APS-API\APS-API.csproj", "{44F0956F-7CA2-429B-9D09-EB4D13ECED68}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APS-API", "APS-API.csproj", "{1A73923B-310B-4A68-A3CA-FA87DBA219B9}"
 EndProject
 Global
