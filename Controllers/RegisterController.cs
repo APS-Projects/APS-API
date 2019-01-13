@@ -82,7 +82,8 @@ namespace APS_API.Controllers
                         NormalizedEmail = postUser.Username.ToUpper(),
                         EmailConfirmed = true,
                         LockoutEnabled = false,
-                        SecurityStamp = Guid.NewGuid().ToString("D")
+                        SecurityStamp = Guid.NewGuid().ToString("D"),
+                        DisplayName = postUser.DisplayName
                     };
                     var passwordHash = new PasswordHasher<User>();
                     user.PasswordHash = passwordHash.HashPassword(user, postUser.Password);

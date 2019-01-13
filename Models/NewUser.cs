@@ -24,5 +24,9 @@ namespace APS_API.Models
         [Required]
         [NotMapped]
         public string LastName { get; set; }
+
+        [Required]
+        [NotMapped]
+        public string DisplayName { get; set; }
     }
 }

@@ -17,6 +17,9 @@ namespace APS_API.Models
         public string AvatarUrl { get; set; }
 
         [Required]
+        public string DisplayName { get; set; }
+
+        [Required]
         public string FirstName { get; set; }
 
         [Required]
