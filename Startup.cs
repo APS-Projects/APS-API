@@ -33,7 +33,7 @@ namespace APS_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite(
+               options.UseSqlServer(
                Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDefaultIdentity<User>()
@@ -41,14 +41,14 @@ namespace APS_API
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(x =>
                    x.SerializerSettings.ReferenceLoopHandling =
                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins("https://localhost:3000", "http://example2.com")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

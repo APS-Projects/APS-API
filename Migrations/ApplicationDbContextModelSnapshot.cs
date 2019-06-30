@@ -3,6 +3,7 @@ using System;
 using APS_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace APSAPI.Migrations
@@ -14,109 +15,9 @@ namespace APSAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024");
-
-            modelBuilder.Entity("APS_API.Models.Bar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("City")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("StreetAddress")
-                        .IsRequired();
-
-                    b.Property<int>("ZipCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Bar");
-                });
-
-            modelBuilder.Entity("APS_API.Models.BarHappyHour", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BarId");
-
-                    b.Property<int>("DayOfWeek");
-
-                    b.Property<string>("Description")
-                        .IsRequired();
-
-                    b.Property<int>("Hours");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BarId");
-
-                    b.ToTable("BarHappyHour");
-                });
-
-            modelBuilder.Entity("APS_API.Models.BarTrivia", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BarId");
-
-                    b.Property<int>("DayOfWeek");
-
-                    b.Property<string>("Description")
-                        .IsRequired();
-
-                    b.Property<int>("Hours");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BarId");
-
-                    b.ToTable("BarTrivia");
-                });
-
-            modelBuilder.Entity("APS_API.Models.Friends", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FriendId")
-                        .IsRequired();
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FriendId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Friends");
-                });
-
-            modelBuilder.Entity("APS_API.Models.UserFavoriteBar", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BarId");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BarId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserFavoriteBar");
-                });
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -136,7 +37,8 @@ namespace APSAPI.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -144,7 +46,8 @@ namespace APSAPI.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -208,7 +111,8 @@ namespace APSAPI.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
 
@@ -218,7 +122,8 @@ namespace APSAPI.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType");
 
@@ -300,51 +205,7 @@ namespace APSAPI.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
-                    b.ToTable("User");
-
                     b.HasDiscriminator().HasValue("User");
-                });
-
-            modelBuilder.Entity("APS_API.Models.BarHappyHour", b =>
-                {
-                    b.HasOne("APS_API.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("APS_API.Models.BarTrivia", b =>
-                {
-                    b.HasOne("APS_API.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("APS_API.Models.Friends", b =>
-                {
-                    b.HasOne("APS_API.Models.User", "Friend")
-                        .WithMany()
-                        .HasForeignKey("FriendId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("APS_API.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("APS_API.Models.UserFavoriteBar", b =>
-                {
-                    b.HasOne("APS_API.Models.Bar", "Bar")
-                        .WithMany()
-                        .HasForeignKey("BarId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("APS_API.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
