@@ -8,20 +8,19 @@ namespace APS_API.Models
 {
     public class BarHappyHour
     {
-        [Key]
         public int Id { get; set; }
 
-        [Required]
         public int BarId { get; set; }
             
-        [Required]
         public int DayOfWeek { get; set; }
 
-        [Required]
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
         [Range (0, 2400)]
         public int Hours { get; set; }
 
-        [Required]
         public string Description { get; set; }
 
         public Bar Bar { get; set; }

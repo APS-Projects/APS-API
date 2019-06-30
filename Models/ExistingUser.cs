@@ -9,12 +9,8 @@ namespace APS_API.Models
 {
     public class ExisitingUser
     {
-        [Required]
-        [NotMapped]
         public string Username { get; set; }
 
-        [Required]
-        [NotMapped]
         public string Password { get; set; }
     }
 }

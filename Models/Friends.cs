@@ -8,14 +8,11 @@ namespace APS_API.Models
 {
     public class Friends
     {
-        [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
-        [Required]
-        public string FriendId { get; set; }
+        public Guid FriendId { get; set; }
 
         public User User { get; set; }
 
