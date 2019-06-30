@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APS-API", "APS-API.csproj", "{1A73923B-310B-4A68-A3CA-FA87DBA219B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationHelper", "..\MigrationHelper\MigrationHelper.csproj", "{35E81D2A-8C4E-4F29-9529-9AED85B7F684}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationHelper", "Tools\MigrationHelper\MigrationHelper.csproj", "{1BC17C9A-AD0F-4763-B59A-B7D6A6DD3653}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{1A73923B-310B-4A68-A3CA-FA87DBA219B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A73923B-310B-4A68-A3CA-FA87DBA219B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A73923B-310B-4A68-A3CA-FA87DBA219B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35E81D2A-8C4E-4F29-9529-9AED85B7F684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35E81D2A-8C4E-4F29-9529-9AED85B7F684}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35E81D2A-8C4E-4F29-9529-9AED85B7F684}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35E81D2A-8C4E-4F29-9529-9AED85B7F684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BC17C9A-AD0F-4763-B59A-B7D6A6DD3653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC17C9A-AD0F-4763-B59A-B7D6A6DD3653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BC17C9A-AD0F-4763-B59A-B7D6A6DD3653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BC17C9A-AD0F-4763-B59A-B7D6A6DD3653}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
