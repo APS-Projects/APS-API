@@ -5,14 +5,17 @@ using System.Text;
 
 namespace TriviaDrunksScraper.HappyHours
 {
-    public class HappyHourHtmlParsers
+    public class HappyHourHtmlParsers : IHappyHourHtmlParsers
     {
         private readonly ISiteDirectory _siteDirectory;
-        public HappyHourHtmlParsers(ISiteDirectory siteDirectory)
+        private readonly HttpClient _httpClient;
+
+        public HappyHourHtmlParsers(ISiteDirectory siteDirectory, HttpClient httpClient)
         {
             _siteDirectory = siteDirectory;
+            _httpClient = httpClient;
         }
-        public  async void GetHtmlNashville(string siteURL, HttpClient httpClient)
+        public  async void GetHtmlNashville()
         {
 
         }

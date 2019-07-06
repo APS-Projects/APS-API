@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using TriviaDrunksScraper.HappyHours;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TriviaDrunksScraper
 {
@@ -9,8 +10,20 @@ namespace TriviaDrunksScraper
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var siteDirectory = new SiteDirectory();
-            var httpClient = new HttpClient();
+            var serviceProvider = new ServiceCollection()
+                .AddTransient<HttpClient>()
+                .AddTransient<ISiteDirectory, SiteDirectory>()
+                .AddTransient<IHappyHourHtmlParsers, HappyHourHtmlParsers>()
+                .BuildServiceProvider();
+
+            var happyHourParsers = serviceProvider.GetService<IHappyHourHtmlParsers>();
+
+
+            happyHourParsers.GetHtmlNashville();
+
+
+            serviceProvider.Dispose();
         }
+
     }
 }
