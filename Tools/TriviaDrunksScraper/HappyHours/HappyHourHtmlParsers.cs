@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 
 namespace TriviaDrunksScraper.HappyHours
 {
@@ -17,7 +17,10 @@ namespace TriviaDrunksScraper.HappyHours
         }
         public  async void GetHtmlNashville()
         {
+            var html = await _httpClient.GetStringAsync(_siteDirectory.NashvilleURL);
 
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
         }
     }
 }

@@ -16,24 +16,35 @@ namespace MigrationHelper.Migrations
                 .WithColumn("Name").AsString(100).NotNullable()
                 .WithColumn("ZipCode").AsInt16().NotNullable()
                 .WithColumn("StreetAddress").AsString(300).NotNullable()
-                .WithColumn("City").AsString(100).NotNullable()
+                .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("OpenHour").AsDateTime().NotNullable()
                 .WithColumn("CloseHour").AsDateTime().NotNullable();
+
+            Create.Table("Cities")
+                .WithColumn("Id").AsInt16().PrimaryKey().NotNullable()
+                .WithColumn("Name").AsString(100).NotNullable();
+
+            Create.Table("DayOfWeek")
+                .WithColumn("Id").AsInt16().PrimaryKey().NotNullable()
+                .WithColumn("Day").AsString(50).NotNullable();
+
+            Create.Table("CityZipCodes")
+                .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
+                .WithColumn("CityId").AsInt16().NotNullable()
+                .WithColumn("ZipCode").AsInt16().NotNullable();
 
             Create.Table("BarHappyHour")
                 .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeek").AsString(50).NotNullable()
-                .WithColumn("StartTime").AsDateTime().NotNullable()
-                .WithColumn("EndTime").AsDateTime().NotNullable()
+                .WithColumn("DayOfWeekId").AsString(50).NotNullable()
+                .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("Description").AsString(500).NotNullable();
 
             Create.Table("BarTrivia")
                 .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeek").AsString(50).NotNullable()
-                .WithColumn("StartTime").AsDateTime().NotNullable()
-                .WithColumn("EndTime").AsDateTime().NotNullable()
+                .WithColumn("DayOfWeekId").AsString(50).NotNullable()
+                .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("Description").AsString(500).NotNullable();
 
             Create.Table("Friends")

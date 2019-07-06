@@ -18,9 +18,7 @@ namespace TriviaDrunksScraper
 
             var happyHourParsers = serviceProvider.GetService<IHappyHourHtmlParsers>();
 
-
             happyHourParsers.GetHtmlNashville();
-
 
             serviceProvider.Dispose();
         }
