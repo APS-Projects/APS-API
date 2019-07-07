@@ -1,9 +1,11 @@
-﻿using System.Net.Http;
+﻿using HtmlAgilityPack;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TriviaDrunksScraper.HappyHours
 {
     public interface IHappyHourHtmlParsers
     {
-        void GetHtmlNashville();
+        Task<IEnumerable<HtmlNode>> GetHtmlNashville();
     }
 }

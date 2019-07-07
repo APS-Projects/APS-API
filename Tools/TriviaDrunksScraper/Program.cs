@@ -7,7 +7,7 @@ namespace TriviaDrunksScraper
 {
     class Program
     {
-        static void Main(string[] args)
+        static void  Main(string[] args)
         {
             Console.WriteLine("Hello World!");
             var serviceProvider = new ServiceCollection()
@@ -18,10 +18,9 @@ namespace TriviaDrunksScraper
 
             var happyHourParsers = serviceProvider.GetService<IHappyHourHtmlParsers>();
 
-            happyHourParsers.GetHtmlNashville();
-
+            happyHourParsers.GetHtmlNashville().Wait();
+            Console.ReadLine();
             serviceProvider.Dispose();
         }
-
     }
 }
