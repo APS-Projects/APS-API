@@ -1,10 +1,14 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TriviaDrunksScraper.HappyHours.HappyHourDAOs;
 
 namespace TriviaDrunksScraper.HappyHours
 {
@@ -12,11 +16,15 @@ namespace TriviaDrunksScraper.HappyHours
     {
         private ISiteDirectory _siteDirectory;
         private HttpClient _httpClient;
+        private IConfiguration _config;
 
-        public HappyHourHtmlParsers(ISiteDirectory siteDirectory, HttpClient httpClient)
+        private string conn { get => _config.GetConnectionString("ConnectionString"); }
+
+        public HappyHourHtmlParsers(ISiteDirectory siteDirectory, HttpClient httpClient, IConfiguration config)
         {
             _siteDirectory = siteDirectory;
             _httpClient = httpClient;
+            _config = config;
         }
         public  async Task<IEnumerable<HtmlNode>> GetHtmlNashville()
         {
@@ -37,6 +45,8 @@ namespace TriviaDrunksScraper.HappyHours
 
                 var parsedDescriptions = ParseHappyHourDescription(happyHourCopy);
 
+                UpdateBars(parsedBarNames);
+
                 //Build a list of reference types with correct properties and pass it to dapper like below
                 //string processQuery = "INSERT INTO PROCESS_LOGS VALUES (@A, @B)";
                 //connection.Execute(processQuery, processList);
@@ -46,6 +56,28 @@ namespace TriviaDrunksScraper.HappyHours
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        private void UpdateBars(IEnumerable<string> barNames)
+        {
+            try
+            {
+                IEnumerable<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = 1 });
+
+                using (IDbConnection db = new SqlConnection(conn))
+                {
+                    var updateBars = @"MERGE Bar As Target
+                                   USING @barsToUpdate As Source
+                                   ON Target.Name = Source.Name AND Bar.CityId = Source.CityId
+                                   WHEN MATCHED
+                                        THEN ";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
 

@@ -12,16 +12,16 @@ namespace MigrationHelper.Migrations
         public override void Up()
         {
             Create.Table("Bar")
-                .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
+                .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("Name").AsString(100).NotNullable()
-                .WithColumn("ZipCode").AsInt16().NotNullable()
-                .WithColumn("StreetAddress").AsString(300).NotNullable()
+                .WithColumn("ZipCode").AsInt16().Nullable()
+                .WithColumn("StreetAddress").AsString(300).Nullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
-                .WithColumn("OpenHour").AsDateTime().NotNullable()
-                .WithColumn("CloseHour").AsDateTime().NotNullable();
+                .WithColumn("OpenHour").AsDateTime().Nullable()
+                .WithColumn("CloseHour").AsDateTime().Nullable();
 
             Create.Table("Cities")
-                .WithColumn("Id").AsInt16().PrimaryKey().NotNullable()
+                .WithColumn("Id").AsInt16().PrimaryKey().Identity().NotNullable()
                 .WithColumn("Name").AsString(100).NotNullable();
 
             Create.Table("DayOfWeek")
@@ -29,19 +29,19 @@ namespace MigrationHelper.Migrations
                 .WithColumn("Day").AsString(50).NotNullable();
 
             Create.Table("CityZipCodes")
-                .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
+                .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("ZipCode").AsInt16().NotNullable();
 
             Create.Table("BarHappyHour")
-                .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
+                .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
                 .WithColumn("DayOfWeekId").AsString(50).NotNullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("Description").AsString(500).NotNullable();
 
             Create.Table("BarTrivia")
-                .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()
+                .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
                 .WithColumn("DayOfWeekId").AsString(50).NotNullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
