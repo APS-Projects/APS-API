@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using Dapper;
+using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace TriviaDrunksScraper.HappyHours
         private HttpClient _httpClient;
         private IConfiguration _config;
 
-        private string conn { get => _config.GetConnectionString("ConnectionString"); }
+        private string conn { get => _config.GetConnectionString("DefaultConnection"); }
 
         public HappyHourHtmlParsers(ISiteDirectory siteDirectory, HttpClient httpClient, IConfiguration config)
         {
@@ -45,7 +46,7 @@ namespace TriviaDrunksScraper.HappyHours
 
                 var parsedDescriptions = ParseHappyHourDescription(happyHourCopy);
 
-                UpdateBars(parsedBarNames);
+                UpdateBars(parsedBarNames, 1);
 
                 //Build a list of reference types with correct properties and pass it to dapper like below
                 //string processQuery = "INSERT INTO PROCESS_LOGS VALUES (@A, @B)";
@@ -59,25 +60,40 @@ namespace TriviaDrunksScraper.HappyHours
             }
         }
 
-        private void UpdateBars(IEnumerable<string> barNames)
+        private async void UpdateBars(IEnumerable<string> barNames, int cityId)
         {
             try
             {
-                IEnumerable<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = 1 });
-
+                var test = conn;
+                var testing = _config.GetConnectionString("DefaultConnection");
+                var moreTesting = _config.GetSection("ConnectionStrings").GetSection("DefaultConnection");
                 using (IDbConnection db = new SqlConnection(conn))
                 {
+                    List<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = cityId }).ToList();
+
                     var updateBars = @"MERGE Bar As Target
-                                   USING @barsToUpdate As Source
+                                   USING (VALUES (@Name, @CityId)) As Source(Name, CityId))
                                    ON Target.Name = Source.Name AND Bar.CityId = Source.CityId
-                                   WHEN MATCHED
-                                        THEN ";
+                                   WHEN NOT MATCHED BY TARGET
+                                        THEN 
+                                   INSERT INTO Bar (Name, CityId)
+                                   VALUES (Source.Name, Source.CityId);";
+
+                    var insertBars = @"INSERT INTO Bar (Name, CityId)
+                                       VALUES
+                                       (@Name, @CityId);";
+
+                    //foreach (var bar in collection)
+                    //{
+
+                    //}
+
+                    var success = await db.ExecuteAsync(insertBars, barsToUpdate);
                 }
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 

@@ -14,11 +14,7 @@ namespace MigrationHelper.Migrations
             Create.Table("Bar")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("Name").AsString(100).NotNullable()
-                .WithColumn("ZipCode").AsInt16().Nullable()
-                .WithColumn("StreetAddress").AsString(300).Nullable()
-                .WithColumn("CityId").AsInt16().NotNullable()
-                .WithColumn("OpenHour").AsDateTime().Nullable()
-                .WithColumn("CloseHour").AsDateTime().Nullable();
+                .WithColumn("CityId").AsInt16().NotNullable();
 
             Create.Table("Cities")
                 .WithColumn("Id").AsInt16().PrimaryKey().Identity().NotNullable()

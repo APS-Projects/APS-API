@@ -17,12 +17,12 @@ namespace TriviaDrunksScraper
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("./appsettings.json", optional: true, reloadOnChange: true);
 
-            IConfigurationRoot configuration = builder.Build();
+            IConfiguration configuration = builder.Build();
 
             var serviceProvider = new ServiceCollection()
-                .AddSingleton<IConfiguration>(configuration)
+                .AddSingleton(configuration)
                 .AddTransient<HttpClient>()
                 .AddTransient<ISiteDirectory, SiteDirectory>()
                 .AddTransient<IHappyHourHtmlParsers, HappyHourHtmlParsers>()
