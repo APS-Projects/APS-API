@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TriviaDrunksScraper.HappyHours.HappyHourDAOs;
+using TriviaDrunksScraper.DAOs;
 
 namespace TriviaDrunksScraper.HappyHours
 {
@@ -48,9 +48,7 @@ namespace TriviaDrunksScraper.HappyHours
 
                 UpdateBars(parsedBarNames, 1);
 
-                //Build a list of reference types with correct properties and pass it to dapper like below
-                //string processQuery = "INSERT INTO PROCESS_LOGS VALUES (@A, @B)";
-                //connection.Execute(processQuery, processList);
+                UpdateHappyHours(parsedDescriptions, 1);
 
                 return happyHours;
             }
@@ -60,35 +58,43 @@ namespace TriviaDrunksScraper.HappyHours
             }
         }
 
+        private async void UpdateHappyHours(IEnumerable<string> happyHourDesc, int cityId)
+        {
+            try
+            {
+                var dayOfWeekId = new DayOfWeek();
+                var testing = (int)dayOfWeekId;
+                //Need to get the name of the bar with the descriptions and not completely parsed out like they are now
+                //List<HappyHourDAO> happyHoursToUpdate = happyHourDesc.Select(desc => new HappyHourDAO { BarId });
+                using (IDbConnection db = new SqlConnection(conn))
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
         private async void UpdateBars(IEnumerable<string> barNames, int cityId)
         {
             try
             {
-                var test = conn;
-                var testing = _config.GetConnectionString("DefaultConnection");
-                var moreTesting = _config.GetSection("ConnectionStrings").GetSection("DefaultConnection");
+                List<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = cityId }).ToList();
+
                 using (IDbConnection db = new SqlConnection(conn))
                 {
-                    List<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = cityId }).ToList();
-
                     var updateBars = @"MERGE Bar As Target
-                                   USING (VALUES (@Name, @CityId)) As Source(Name, CityId))
-                                   ON Target.Name = Source.Name AND Bar.CityId = Source.CityId
-                                   WHEN NOT MATCHED BY TARGET
-                                        THEN 
-                                   INSERT INTO Bar (Name, CityId)
-                                   VALUES (Source.Name, Source.CityId);";
+                                       USING (VALUES(@Name, @CityId)) As Source(Name, CityId)
+                                       ON Target.Name = Source.Name AND Target.CityId = Source.CityId
+                                       WHEN NOT MATCHED BY TARGET
+                                            THEN 
+                                       INSERT (Name, CityId)
+                                       VALUES (Source.Name, Source.CityId);";
 
-                    var insertBars = @"INSERT INTO Bar (Name, CityId)
-                                       VALUES
-                                       (@Name, @CityId);";
-
-                    //foreach (var bar in collection)
-                    //{
-
-                    //}
-
-                    var success = await db.ExecuteAsync(insertBars, barsToUpdate);
+                    var success = await db.ExecuteAsync(updateBars, barsToUpdate);
                 }
             }
             catch (Exception ex)

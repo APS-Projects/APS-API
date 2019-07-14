@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TriviaDrunksScraper.HappyHours.HappyHourDAOs
+namespace TriviaDrunksScraper.DAOs
 {
     public class BarDAO
     {

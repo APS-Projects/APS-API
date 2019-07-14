@@ -17,7 +17,7 @@ namespace TriviaDrunksScraper
 
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("./appsettings.json", optional: true, reloadOnChange: true);
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             IConfiguration configuration = builder.Build();
 

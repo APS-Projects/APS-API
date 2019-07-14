@@ -18,4 +18,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

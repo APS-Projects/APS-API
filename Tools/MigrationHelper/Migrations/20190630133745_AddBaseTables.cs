@@ -32,14 +32,14 @@ namespace MigrationHelper.Migrations
             Create.Table("BarHappyHour")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeekId").AsString(50).NotNullable()
+                .WithColumn("DayOfWeekId").AsInt16().NotNullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("Description").AsString(500).NotNullable();
 
             Create.Table("BarTrivia")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
                 .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeekId").AsString(50).NotNullable()
+                .WithColumn("DayOfWeekId").AsInt16().NotNullable()
                 .WithColumn("CityId").AsInt16().NotNullable()
                 .WithColumn("Description").AsString(500).NotNullable();
 
