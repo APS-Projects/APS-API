@@ -3,9 +3,9 @@ using System.Net.Http;
 using TriviaDrunksScraper.HappyHours;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.FileExtensions;
-using Microsoft.Extensions.Configuration.Json;
 using System.IO;
+using TriviaDrunksScraper.Repositories;
+using TriviaDrunksScraper.HappyHours.Cities;
 
 namespace TriviaDrunksScraper
 {
@@ -25,12 +25,15 @@ namespace TriviaDrunksScraper
                 .AddSingleton(configuration)
                 .AddTransient<HttpClient>()
                 .AddTransient<ISiteDirectory, SiteDirectory>()
-                .AddTransient<IHappyHourHtmlParsers, HappyHourHtmlParsers>()
+                .AddTransient<TriviaDrunkRepository>()
+                .AddTransient<ParserConfig>()
                 .BuildServiceProvider();
 
-            var happyHourParsers = serviceProvider.GetService<IHappyHourHtmlParsers>();
+            var parserConfig = serviceProvider.GetService<ParserConfig>();
 
-            happyHourParsers.GetHtmlNashville().Wait();
+            var nashvilleHtml = new NashvilleHtmlParser(parserConfig);
+
+            nashvilleHtml.ParseHappyHourHtml().Wait();
             Console.ReadLine();
             serviceProvider.Dispose();
         }

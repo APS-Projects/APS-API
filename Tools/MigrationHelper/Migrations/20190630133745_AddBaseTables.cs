@@ -31,17 +31,17 @@ namespace MigrationHelper.Migrations
 
             Create.Table("BarHappyHour")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
-                .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeekId").AsInt16().NotNullable()
-                .WithColumn("CityId").AsInt16().NotNullable()
-                .WithColumn("Description").AsString(500).NotNullable();
+                .WithColumn("BarId").AsInt64().Nullable()
+                .WithColumn("DayOfWeekId").AsInt16().Nullable()
+                .WithColumn("CityId").AsInt16().Nullable()
+                .WithColumn("Description").AsString(500).Nullable();
 
             Create.Table("BarTrivia")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity().NotNullable()
-                .WithColumn("BarId").AsInt64().NotNullable()
-                .WithColumn("DayOfWeekId").AsInt16().NotNullable()
-                .WithColumn("CityId").AsInt16().NotNullable()
-                .WithColumn("Description").AsString(500).NotNullable();
+                .WithColumn("BarId").AsInt64().Nullable()
+                .WithColumn("DayOfWeekId").AsInt16().Nullable()
+                .WithColumn("CityId").AsInt16().Nullable()
+                .WithColumn("Description").AsString(500).Nullable();
 
             Create.Table("Friends")
                 .WithColumn("Id").AsInt64().PrimaryKey().NotNullable()

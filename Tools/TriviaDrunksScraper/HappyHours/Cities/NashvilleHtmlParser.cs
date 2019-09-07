@@ -1,36 +1,32 @@
-﻿using Dapper;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using TriviaDrunksScraper.DAOs;
+using TriviaDrunksScraper.Repositories;
 
-namespace TriviaDrunksScraper.HappyHours
+namespace TriviaDrunksScraper.HappyHours.Cities
 {
-    public class HappyHourHtmlParsers : IHappyHourHtmlParsers
+    public class NashvilleHtmlParser : IHtmlParser
     {
         private ISiteDirectory _siteDirectory;
         private HttpClient _httpClient;
-        private IConfiguration _config;
+        private TriviaDrunkRepository _repository;
 
-        private string conn { get => _config.GetConnectionString("DefaultConnection"); }
-
-        public HappyHourHtmlParsers(ISiteDirectory siteDirectory, HttpClient httpClient, IConfiguration config)
+        public NashvilleHtmlParser(ParserConfig parserConfig)
         {
-            _siteDirectory = siteDirectory;
-            _httpClient = httpClient;
-            _config = config;
+            _siteDirectory = parserConfig.SiteDirectory;
+            _httpClient = parserConfig.HttpClient;
+            _repository = parserConfig.Repository;
         }
-        public  async Task<IEnumerable<HtmlNode>> GetHtmlNashville()
+        public  async Task<IEnumerable<HtmlNode>> ParseHappyHourHtml()
         {
             try
             {
+                //Most next three lines out
                 var html = await _httpClient.GetStringAsync(_siteDirectory.NashvilleURL);
 
                 var htmlDocument = new HtmlDocument();
@@ -46,9 +42,9 @@ namespace TriviaDrunksScraper.HappyHours
 
                 var parsedDescriptions = ParseHappyHourDescription(happyHourCopy);
 
-                UpdateBars(parsedBarNames, 1);
+                _repository.UpdateBars(parsedBarNames, 1);
 
-                UpdateHappyHours(parsedDescriptions, 1);
+                _repository.UpdateHappyHours(parsedDescriptions, 1);
 
                 return happyHours;
             }
@@ -58,50 +54,9 @@ namespace TriviaDrunksScraper.HappyHours
             }
         }
 
-        private async void UpdateHappyHours(IEnumerable<string> happyHourDesc, int cityId)
-        {
-            try
-            {
-                var dayOfWeekId = new DayOfWeek();
-                var testing = (int)dayOfWeekId;
-                //Need to get the name of the bar with the descriptions and not completely parsed out like they are now
-                //List<HappyHourDAO> happyHoursToUpdate = happyHourDesc.Select(desc => new HappyHourDAO { BarId });
-                using (IDbConnection db = new SqlConnection(conn))
-                {
-
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-
-        private async void UpdateBars(IEnumerable<string> barNames, int cityId)
-        {
-            try
-            {
-                List<BarDAO> barsToUpdate = barNames.Select(bar => new BarDAO { Name = bar, CityId = cityId }).ToList();
-
-                using (IDbConnection db = new SqlConnection(conn))
-                {
-                    var updateBars = @"MERGE Bar As Target
-                                       USING (VALUES(@Name, @CityId)) As Source(Name, CityId)
-                                       ON Target.Name = Source.Name AND Target.CityId = Source.CityId
-                                       WHEN NOT MATCHED BY TARGET
-                                            THEN 
-                                       INSERT (Name, CityId)
-                                       VALUES (Source.Name, Source.CityId);";
-
-                    var success = await db.ExecuteAsync(updateBars, barsToUpdate);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public Task<IEnumerable<HtmlNode>> ParseTriviaHtml ()
+        //{
+        //}
 
         private IEnumerable<string> ParseBarNames(IEnumerable<HtmlNode> happyHours)
         {
